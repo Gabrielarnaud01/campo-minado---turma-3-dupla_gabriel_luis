@@ -55,7 +55,7 @@ int main(){
               matriz[i][j] = i+j + 1;
               for(int k=0;k<40;k++){
                 if(matriz[i][j] == vet_rand[k]){
-                  matriz[i][j] =0;
+                  matriz[i][j] =4001;
                 }
               }
             }
@@ -63,7 +63,7 @@ int main(){
               matriz[i][j] = i*20 +1;
               for(int k=0;k<40;k++){
                 if(matriz[i][j] == vet_rand[k]){
-                  matriz[i][j] =0;
+                  matriz[i][j] =4001;
                 }
               }
             }
@@ -71,10 +71,17 @@ int main(){
               matriz[i][j] = i*20 +j +1;
               for(int k=0;k<40;k++){
                 if(matriz[i][j] == vet_rand[k]){
-                  matriz[i][j] =0;
+                  matriz[i][j] =4001;
                 }
               }
             }
+        }
+    }
+    for(int i=0;i<10;i++){
+        for(int j=0;j<20;j++){
+          if(matriz[i][j]!=4001){
+            matriz[i][j]=0;
+          }
         }
     }
     for(int i=0;i<10;i++){
