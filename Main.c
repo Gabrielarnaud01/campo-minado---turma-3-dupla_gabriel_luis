@@ -23,3 +23,74 @@ todas as células adjacentes a essa posição, visto que ela não possui minas
 adjacentes.
 bal
 */
+
+
+
+int main(){
+    //matriz do jogo
+    int **matriz;
+    int *vet_rand;
+
+    vet_rand = malloc(sizeof(int)*40);
+    matriz = malloc(sizeof(int*)*10);
+    srand(time(0));
+
+    for(int i =0;i<40;i++){
+      vet_rand[i] = rand() % 200 + 1;
+      for(int j = 0;j<i;j++){
+        if(i>0 && vet_rand[j] == vet_rand[i]){
+          vet_rand[i] = rand() % 200 + 1;
+          j--;
+          
+        }
+      }
+    }
+
+    for(int i=0;i<10;i++){
+        matriz[i] = malloc(sizeof(int*)*20);
+    }
+    for(int i=0;i<10;i++){
+        for(int j=0;j<20;j++){
+            if(i==0){
+              matriz[i][j] = i+j + 1;
+              for(int k=0;k<40;k++){
+                if(matriz[i][j] == vet_rand[k]){
+                  matriz[i][j] =0;
+                }
+              }
+            }
+            if(i>0 && j==0){
+              matriz[i][j] = i*20 +1;
+              for(int k=0;k<40;k++){
+                if(matriz[i][j] == vet_rand[k]){
+                  matriz[i][j] =0;
+                }
+              }
+            }
+            if(i>0 && j>0){
+              matriz[i][j] = i*20 +j +1;
+              for(int k=0;k<40;k++){
+                if(matriz[i][j] == vet_rand[k]){
+                  matriz[i][j] =0;
+                }
+              }
+            }
+        }
+    }
+    for(int i=0;i<10;i++){
+        for(int j=0;j<20;j++){
+            printf("%d ",matriz[i][j]);
+        }
+        printf("\n");
+    }
+printf("\n");
+printf("\n");
+    //  Podemos atribuir o valor  0 às celular que não tiverem nem numero nem bomba, atribuiremos a quantidade de bombas->
+    //nas celulas adjascentes a celulas que tiverem bombas adjascentes e na celula das bombas podemos adicionar um numero maior de 40;
+    //  Para a atribuição das bombas nos podemos gerar  40 numeros aleatorios entre 0-199 e colocar bombas nas posiçôes geradas!!
+    //  Para a verificação de bombas ao redor como usaremos a heap//alocação precisaremos checar a casa -11,-10,-9,-1,+1,+9,+10 e +11 de cada celula->
+    //e ai atribuir o numero de quantidade de bombas a essa celula!!
+
+
+    return 0; 
+}
