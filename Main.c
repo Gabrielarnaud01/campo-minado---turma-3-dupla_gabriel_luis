@@ -21,4 +21,5 @@ diagonais);
 3. Uma posição vazia é revelada: nesse caso, o jogo aplica a ação revelar sobre
 todas as células adjacentes a essa posição, visto que ela não possui minas
 adjacentes.
+bal
 */
