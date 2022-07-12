@@ -25,8 +25,11 @@ bal
 */
 
 typedef struct{
-    int tipo;// 3 tipos, 1. vazio  2. numero de minas  3. Mina
+    int tipo;// 3 tipos, 0. Vazio  1. Minas  2. Numero de Minas
     int n_minas;
+    int pos_sequencial;
+    int linha_p_ver;
+    int col_p_ver;
 }espaco;
 
 
@@ -43,6 +46,9 @@ void cria_campo(int *v_rand, espaco **matriz){
     for(int i=0;i<10;i++){
         for(int j=0;j<20;j++){
             if(i==0){
+              matriz[i][j].pos_sequencial = i+j + 1;
+              matriz[i][j].linha_p_ver = i;
+              matriz[i][j].linha_p_ver = j;
               matriz[i][j].tipo = i+j + 1;
               for(int k=0;k<40;k++){
                 if(matriz[i][j].tipo == v_rand[k]){
@@ -51,6 +57,9 @@ void cria_campo(int *v_rand, espaco **matriz){
               }
             }
             if(i>0 && j==0){
+              matriz[i][j].pos_sequencial = i*20 +1;
+              matriz[i][j].linha_p_ver = i;
+              matriz[i][j].linha_p_ver = j;
               matriz[i][j].tipo = i*20 +1;
               for(int k=0;k<40;k++){
                 if(matriz[i][j].tipo == v_rand[k]){
@@ -59,6 +68,9 @@ void cria_campo(int *v_rand, espaco **matriz){
               }
             }
             if(i>0 && j>0){
+              matriz[i][j].pos_sequencial = i*20 +j +1;
+              matriz[i][j].linha_p_ver = i;
+              matriz[i][j].linha_p_ver = j;
               matriz[i][j].tipo = i*20 +j +1;
               for(int k=0;k<40;k++){
                 if(matriz[i][j].tipo == v_rand[k]){
@@ -77,6 +89,70 @@ void cria_campo(int *v_rand, espaco **matriz){
     }
 }
 
+void verif_qtd_minas(espaco **matriz){
+    //O tipo precisa ser o 0 pois atualmente é o tipo da celula vazia ainda sem a qtd do numero de minas.
+    
+
+      for(int i=0;i<10;i++){
+        for(int j=0;j<20;j++){
+          if(matriz[i][j].tipo==0){
+            
+            //vou verificar se tem as linhas de cima e linhas de baixa + coluna direta e coluna esquerda e fazer ifs e elses pra cada caso desses...
+
+            if(matriz[i][j].linha_p_ver == matriz[i][j+1].linha_p_ver){
+              
+            }
+            if(matriz[i][j].linha_p_ver == matriz[i][j-1].linha_p_ver){
+
+            }
+            if( matriz[i-1][j].linha_p_ver > 0){
+              
+            }
+            if( matriz[i+1][j].linha_p_ver < 10){
+              
+            }
+          }
+        }
+      }
+
+    /*  Ideias de verificação junto com a parte de cima...
+    if((matriz[i][j].pos_sequencial - 21)>0 && matriz[i][j].linha_p_ver==matriz[i][j].linha_p_ver && matriz[i-1][j-1].tipo==1){
+              matriz[i][j].n_minas += 1;
+              matriz[i][j].tipo=2;
+            }
+            if((matriz[i][j].pos_sequencial - 20)>0  && matriz[i-1][j].tipo==1){
+              matriz[i][j].n_minas += 1;
+              matriz[i][j].tipo=2;
+            }
+            if((matriz[i][j].pos_sequencial - 19)>0  && matriz[i-1][j+1].tipo==1){
+              matriz[i][j].n_minas += 1;
+              matriz[i][j].tipo=2;
+            }
+            if((matriz[i][j].pos_sequencial - 1)>0  && matriz[i][j].tipo==1){
+              matriz[i][j].n_minas += 1;
+              matriz[i][j].tipo=2;
+            }
+            if((matriz[i][j].pos_sequencial + 1)>200  && matriz[i][j+1].tipo==1){
+              matriz[i][j].n_minas += 1;
+              matriz[i][j].tipo=2;
+            }
+            if((matriz[i][j].pos_sequencial + 19)<200  && matriz[i+1][j-1].tipo==1){
+              matriz[i][j].n_minas += 1;
+              matriz[i][j].tipo=2;
+            }
+            if((matriz[i][j].pos_sequencial + 20)<200  && matriz[i-1][j].tipo==1){
+              matriz[i][j].n_minas += 1;
+              matriz[i][j].tipo=2;
+            }
+            if((matriz[i][j].pos_sequencial + 21)<200  && matriz[i-1][j+1].tipo==1){
+              matriz[i][j].n_minas += 1;
+              matriz[i][j].tipo=2;
+            }
+
+    */
+}
+
+
 
 int main(){
     //matriz do jogo
@@ -92,11 +168,19 @@ int main(){
     }
     cria_campo(vet_rand,matriz);
     // func para checar numero de bombas.
-
+    verif_qtd_minas(matriz);
 
     for(int i=0;i<10;i++){
         for(int j=0;j<20;j++){
+          if(matriz[i][j].tipo == 1){
             printf("%d ",matriz[i][j].tipo);
+          }
+          if(matriz[i][j].tipo == 0){
+            printf("%d ",matriz[i][j].tipo);
+          }
+          if(matriz[i][j].tipo == 2){
+            printf("%d ",matriz[i][j].n_minas);
+          }
         }
         printf("\n");
     }
