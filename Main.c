@@ -25,7 +25,7 @@ bal
 */
 
 typedef struct{
-    int tipo;
+    int tipo;// 3 tipos, 1. vazio  2. numero de minas  3. Mina
     int n_minas;
 }espaco;
 
@@ -102,6 +102,13 @@ int main(){
     }
     printf("\n");
     printf("\n");
+
+
+    for(int i=0;i<10;i++){
+        free(matriz[i]);
+    }
+    free(matriz);
+    free(vet_rand);
 /*
     Podemos atribuir o valor  0 às celular que não tiverem nem numero nem bomba, atribuiremos a quantidade de bomba nas celulas adjascentes 
     e na celula das bombas podemos adicionar um numero maior de 40;
