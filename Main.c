@@ -224,6 +224,42 @@ void verif_mina_extremoz_linhas(espaco **matriz){
     }
   }
 }
+void verif_mina_centro(espaco **matriz){
+   for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 20; j++) {
+      if (matriz[i][j].tipo == 1) {
+        continue;
+      }
+      if(1 && i>0 && j>0 && i<9 && j<19){
+        if(matriz[i][j-1].tipo == 1){
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+        }
+        if(matriz[i][j+1].tipo == 1 ){
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+        }
+        if(matriz[i-1][j].tipo == 1){
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+        }
+        if(matriz[i+1][j].tipo == 1 ){
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+        }
+        if(matriz[i+1][j-1].tipo == 1 ){
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+        }
+        if(matriz[i+1][j+1].tipo == 1 ){
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+        }
+        if(matriz[i-1][j-1].tipo == 1 ){
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+        }
+        if(matriz[i-1][j+1].tipo == 1 ){
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+        }
+      }
+    }
+  }
+}
+
 int main() {
   // matriz do jogo
   espaco **matriz;
@@ -251,6 +287,7 @@ int main() {
   
   verif_mina_pontas(matriz);
   verif_mina_extremoz_linhas(matriz);
+  verif_mina_centro(matriz);
   printf("\n");
   printf("\n");
 
