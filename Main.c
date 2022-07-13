@@ -77,11 +77,11 @@ void cria_campo(int *v_rand, espaco **matriz) {
 void verif_mina_pontas(espaco **matriz) {
 
   for (int i = 0; i < 10; i++) {
-    for (int j = 0; j < 10; j++) {
+    for (int j = 0; j < 20; j++) {
       switch (matriz[i][j].pos_sequencial) {
       case 0:
         if (matriz[i][j].tipo == 1) {
-            continue;
+            break;
         } else {
           if (matriz[0][1].tipo == 1) {
             matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
@@ -92,12 +92,12 @@ void verif_mina_pontas(espaco **matriz) {
           if (matriz[1][1].tipo == 1) {
             matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
           }
-          
+          break;
         }
 
       case 19:
         if (matriz[i][j].tipo == 1) {
-          continue;
+          break;
         } else {
           if (matriz[0][18].tipo == 1) {
             matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
@@ -108,11 +108,12 @@ void verif_mina_pontas(espaco **matriz) {
           if (matriz[1][18].tipo == 1) {
             matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
           }
+          break;
         }
 
       case 180:
         if (matriz[i][j].tipo == 1) {
-          continue;
+          break;
         } else {
           if (matriz[8][0].tipo == 1) {
             matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
@@ -123,11 +124,12 @@ void verif_mina_pontas(espaco **matriz) {
           if (matriz[8][1].tipo == 1) {
             matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
           }
+          break;
         }
 
       case 199:
         if (matriz[i][j].tipo == 1) {
-          continue;
+          break;
         } else {
           if (matriz[9][18].tipo == 1) {
             matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
@@ -138,6 +140,7 @@ void verif_mina_pontas(espaco **matriz) {
           if (matriz[8][18].tipo == 1) {
             matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
           }
+          break;
         }
       }
     }
@@ -152,41 +155,75 @@ void verif_mina_extremoz_linhas(espaco **matriz){
       }
       if(matriz[i][j].pos_sequencial>0 && matriz[i][j].pos_sequencial<19){
         if(matriz[i][j-1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
         }
         if(matriz[i][j+1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
         }
         if(matriz[i+1][j].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
         }
         if(matriz[i+1][j-1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
         }
         if(matriz[i+1][j+1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
         }
       }
       if(matriz[i][j].pos_sequencial>180 && matriz[i][j].pos_sequencial<199){
         if(matriz[i][j-1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
         }
         if(matriz[i][j+1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
         }
         if(matriz[i-1][j].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
         }
         if(matriz[i-1][j-1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
         }
         if(matriz[i-1][j+1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
         }
       }
+      if(i>0 && i<9 && j==0){
+        if(matriz[i+1][j].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        }
+        if(matriz[i-1][j].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        }
+        if(matriz[i-1][j+1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        }
+        if(matriz[i][j+1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        }
+        if(matriz[i+1][j+1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        }
+      }
+      if(i>0 && i<9 && j==19){
+        if(matriz[i+1][j].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        }
+        if(matriz[i-1][j].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        }
+        if(matriz[i-1][j-1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        }
+        if(matriz[i][j-1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        }
+        if(matriz[i+1][j-1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        }
       }
     }
   }
+}
 int main() {
   // matriz do jogo
   espaco **matriz;
@@ -213,7 +250,7 @@ int main() {
   }
   
   verif_mina_pontas(matriz);
-  //verif_mina_extremoz_linhas(matriz);
+  verif_mina_extremoz_linhas(matriz);
   printf("\n");
   printf("\n");
 
@@ -234,14 +271,11 @@ int main() {
       Podemos atribuir o valor  0 às celular que não tiverem nem numero nem
      bomba, atribuiremos a quantidade de bomba nas celulas adjascentes e na
      celula das bombas podemos adicionar um numero maior de 40;
-
       Para a atribuição das bombas nos podemos gerar  40 numeros aleatorios
      entre 0-199 e colocar bombas nas posiçôes geradas!!
-
       Para a verificação de bombas ao redor como usaremos a heap//alocação
      precisaremos checar a casa -11,-10,-9,-1,+1,+9,+10 e +11 de cada celula e
      ai atribuir o numero de quantidade de bombas a essa celula!!
-
   */ 
     
   return 0;
