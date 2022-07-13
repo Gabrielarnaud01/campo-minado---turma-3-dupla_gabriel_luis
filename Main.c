@@ -276,6 +276,7 @@ int main() {
   // matriz do jogo
   espaco **matriz;
   int *vet_rand;
+  char selecionado[255];
   int linha,coluna;
   int aux = 0;
 
@@ -290,32 +291,40 @@ int main() {
   free(vet_rand);
   // func para checar numero de bombas.
   // verif_qtd_minas(matriz);
-
-  for(int i = 0; i<10; i++){
+  printf("              MENU\n  Jogar\n  Jogar-Automaticamente\n  Instrucoes\nDigte uma das opções acima:\n  ");
+  scanf("%s",selecionado);
+  if(strcmp(selecionado,"Instrucoes")==0){
+    printf(" 1. Uma mina é revelada: nesse caso, o jogo encerra com a derrota do usuário;\n 2. Um número é revelado: o valor indica a quantidade de minas adjacentes considerando as 8 células ao redor de uma posição (vertical, horizontal e diagonais);\n 3. Uma posição vazia é revelada: nesse caso, o jogo aplica a ação revelar sobre todas as células adjacentes a essa posição, visto que ela não possui minas adjacentes.");
+  }
+  if(strcmp(selecionado,"Jogar")==0){
+    //criar jogo
+    for(int i = 0; i<10; i++){
     for(int j = 0; j<20; j++){
       printf("%c ", matriz[i][j].status);
     }
     printf("\n");
-  }
-
-  while(aux == 0){
-    scanf("%d",  &linha);
-  scanf("%d",  &coluna);
-
-  matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
-  for(int i = 0; i<10; i++){
-    for(int j = 0; j<20; j++){
-      printf("%c ", matriz[i][j].status);
     }
-    printf("\n");
-  }
-  if(matriz[linha][coluna].tipo == 1){
-    printf("PERDEU\n");
-    aux = 1;
-  }
 
-  }
+    while(aux == 0){
+      scanf("%d",  &linha);
+      scanf("%d",  &coluna);
 
+      matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+      for(int i = 0; i<10; i++){
+        for(int j = 0; j<20; j++){
+          printf("%c ", matriz[i][j].status);
+        }
+      printf("\n");
+      }
+      if(matriz[linha][coluna].tipo == 1){
+        printf("PERDEU\n");
+        aux = 1;
+      }
+    }
+  }
+  if(strcmp(selecionado,"Jogar-Automaticamente")==0){
+    //criar jogo automatico
+  }
 
   for (int i = 0; i < 10; i++) {
     free(matriz[i]);
