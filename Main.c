@@ -27,9 +27,11 @@ bal
 */
 
 typedef struct {
-  int tipo; // 3 tipos, 0. Vazio  1. Minas  2. Numero de Minas
+  int tipo; 
   int n_minas;
   int pos_sequencial;
+  char status;
+
 
 } espaco;
 
@@ -53,6 +55,7 @@ void cria_campo(int *v_rand, espaco **matriz) {
     for (int j = 0; j < 20; j++) {
       matriz[i][j].tipo = 4;
       matriz[i][j].n_minas = 0;
+      matriz[i][j].status = '*';
     }
   }
   for (int i = 0; i < 10; i++) {
@@ -260,10 +263,21 @@ void verif_mina_centro(espaco **matriz){
   }
 }
 
+
+void cria_camp_min(int *vet_rand, espaco **matriz){
+  v_minas(vet_rand);
+  cria_campo(vet_rand,matriz);
+  verif_mina_pontas(matriz);
+  verif_mina_extremoz_linhas(matriz);
+  verif_mina_centro(matriz);
+}
+
 int main() {
   // matriz do jogo
   espaco **matriz;
   int *vet_rand;
+  int linha,coluna;
+  int aux = 0;
 
   vet_rand = malloc(sizeof(int) * 40);
 
@@ -272,48 +286,41 @@ int main() {
     matriz[i] = malloc(sizeof(espaco) * 20);
   }
 
-  v_minas(vet_rand);
-  cria_campo(vet_rand, matriz);
+  cria_camp_min(vet_rand, matriz);
   free(vet_rand);
   // func para checar numero de bombas.
   // verif_qtd_minas(matriz);
 
-  for (int i = 0; i < 10; i++) {
-    for (int j = 0; j < 20; j++) {
-      printf(" %d ", matriz[i][j].tipo);
+  for(int i = 0; i<10; i++){
+    for(int j = 0; j<20; j++){
+      printf("%c ", matriz[i][j].status);
     }
     printf("\n");
   }
-  
-  verif_mina_pontas(matriz);
-  verif_mina_extremoz_linhas(matriz);
-  verif_mina_centro(matriz);
-  printf("\n");
-  printf("\n");
 
-  for (int i = 0; i < 10; i++) {
-    for (int j = 0; j < 20; j++) {
-      printf(" %d ", matriz[i][j].n_minas);
+  while(aux == 0){
+    scanf("%d",  &linha);
+  scanf("%d",  &coluna);
+
+  matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+  for(int i = 0; i<10; i++){
+    for(int j = 0; j<20; j++){
+      printf("%c ", matriz[i][j].status);
     }
     printf("\n");
   }
- 
+  if(matriz[linha][coluna].tipo == 1){
+    printf("PERDEU\n");
+    aux = 1;
+  }
+
+  }
+
 
   for (int i = 0; i < 10; i++) {
     free(matriz[i]);
   }
   free(matriz);
-
-  /*
-      Podemos atribuir o valor  0 às celular que não tiverem nem numero nem
-     bomba, atribuiremos a quantidade de bomba nas celulas adjascentes e na
-     celula das bombas podemos adicionar um numero maior de 40;
-      Para a atribuição das bombas nos podemos gerar  40 numeros aleatorios
-     entre 0-199 e colocar bombas nas posiçôes geradas!!
-      Para a verificação de bombas ao redor como usaremos a heap//alocação
-     precisaremos checar a casa -11,-10,-9,-1,+1,+9,+10 e +11 de cada celula e
-     ai atribuir o numero de quantidade de bombas a essa celula!!
-  */ 
     
   return 0;
 }
