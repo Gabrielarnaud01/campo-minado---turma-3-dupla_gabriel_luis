@@ -279,6 +279,7 @@ int main() {
   char selecionado[255];
   int linha,coluna;
   int aux = 0;
+  int contador = 0;
 
   vet_rand = malloc(sizeof(int) * 40);
 
@@ -299,28 +300,66 @@ int main() {
   if(strcmp(selecionado,"Jogar")==0){
     //criar jogo
     for(int i = 0; i<10; i++){
-    for(int j = 0; j<20; j++){
-      printf("%c ", matriz[i][j].status);
-    }
+      for(int j = 0; j<20; j++){
+        printf("%c ", matriz[i][j].status);
+      }
     printf("\n");
     }
 
-    while(aux == 0){
+    while(aux == 0 || contador < 160){
       scanf("%d",  &linha);
       scanf("%d",  &coluna);
+      contador++;
 
-      matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+      if(matriz[linha][coluna].tipo == 0 && matriz[linha][coluna].n_minas == 0){
+        if(linha == 0 && coluna == 0){
+          matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
+          matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
+          matriz[linha+1][coluna+1].status = matriz[linha+1][coluna+1].n_minas + '0';
+        }
+        else if(linha > 0 && coluna == 0){
+          matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
+          matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
+          matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
+          matriz[linha+1][coluna+1].status = matriz[linha+1][coluna+1].n_minas + '0';
+          matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';
+        }
+        else if(linha == 0 && coluna > 0){
+          matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
+          matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
+          matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
+          matriz[linha+1][coluna+1].status = matriz[linha+1][coluna+1].n_minas + '0';
+          matriz[linha+1][coluna-1].status = matriz[linha+1][coluna-1].n_minas + '0';
+        }
+        else{
+          matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
+          matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
+          matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
+          matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
+          matriz[linha+1][coluna+1].status = matriz[linha+1][coluna+1].n_minas + '0';
+          matriz[linha+1][coluna-1].status = matriz[linha+1][coluna-1].n_minas + '0';
+          matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';
+          matriz[linha-1][coluna-1].status = matriz[linha-1][coluna-1].n_minas + '0';
+        }
+      }
+      else if(matriz[linha][coluna].tipo == 1){
+        printf("PERDEU\n");
+        break;
+      }
+      else{
+        matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+      }
       for(int i = 0; i<10; i++){
         for(int j = 0; j<20; j++){
           printf("%c ", matriz[i][j].status);
         }
       printf("\n");
       }
-      if(matriz[linha][coluna].tipo == 1){
-        printf("PERDEU\n");
-        aux = 1;
-      }
-    }
+  }
   }
   if(strcmp(selecionado,"Jogar-Automaticamente")==0){
     //criar jogo automatico
