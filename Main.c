@@ -27,11 +27,10 @@ bal
 */
 
 typedef struct {
-  int tipo; 
+  int tipo;
   int n_minas;
   int pos_sequencial;
   char status;
-
 
 } espaco;
 
@@ -93,7 +92,7 @@ void verif_mina_pontas(espaco **matriz) {
       switch (matriz[i][j].pos_sequencial) {
       case 0:
         if (matriz[i][j].tipo == 1) {
-            break;
+          break;
         } else {
           if (matriz[0][1].tipo == 1) {
             matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
@@ -159,112 +158,113 @@ void verif_mina_pontas(espaco **matriz) {
   }
 }
 
-void verif_mina_extremoz_linhas(espaco **matriz){
+void verif_mina_extremoz_linhas(espaco **matriz) {
   for (int i = 0; i < 10; i++) {
     for (int j = 0; j < 20; j++) {
       if (matriz[i][j].tipo == 1) {
         continue;
       }
-      if(matriz[i][j].pos_sequencial>0 && matriz[i][j].pos_sequencial<19){
-        if(matriz[i][j-1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+      if (matriz[i][j].pos_sequencial > 0 && matriz[i][j].pos_sequencial < 19) {
+        if (matriz[i][j - 1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i][j+1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        if (matriz[i][j + 1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i+1][j].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        if (matriz[i + 1][j].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i+1][j-1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        if (matriz[i + 1][j - 1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i+1][j+1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
-        }
-      }
-      if(matriz[i][j].pos_sequencial>180 && matriz[i][j].pos_sequencial<199){
-        if(matriz[i][j-1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
-        }
-        if(matriz[i][j+1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
-        }
-        if(matriz[i-1][j].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
-        }
-        if(matriz[i-1][j-1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
-        }
-        if(matriz[i-1][j+1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        if (matriz[i + 1][j + 1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
       }
-      if(i>0 && i<9 && j==0){
-        if(matriz[i+1][j].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+      if (matriz[i][j].pos_sequencial > 180 &&
+          matriz[i][j].pos_sequencial < 199) {
+        if (matriz[i][j - 1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i-1][j].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        if (matriz[i][j + 1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i-1][j+1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        if (matriz[i - 1][j].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i][j+1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        if (matriz[i - 1][j - 1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i+1][j+1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        if (matriz[i - 1][j + 1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
       }
-      if(i>0 && i<9 && j==19){
-        if(matriz[i+1][j].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+      if (i > 0 && i < 9 && j == 0) {
+        if (matriz[i + 1][j].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i-1][j].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        if (matriz[i - 1][j].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i-1][j-1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        if (matriz[i - 1][j + 1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i][j-1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        if (matriz[i][j + 1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i+1][j-1].tipo == 1) {
-          matriz[i][j].n_minas = matriz[i][j].n_minas+ 1;
+        if (matriz[i + 1][j + 1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+        }
+      }
+      if (i > 0 && i < 9 && j == 19) {
+        if (matriz[i + 1][j].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+        }
+        if (matriz[i - 1][j].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+        }
+        if (matriz[i - 1][j - 1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+        }
+        if (matriz[i][j - 1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
+        }
+        if (matriz[i + 1][j - 1].tipo == 1) {
+          matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
       }
     }
   }
 }
-void verif_mina_centro(espaco **matriz){
-   for (int i = 0; i < 10; i++) {
+void verif_mina_centro(espaco **matriz) {
+  for (int i = 0; i < 10; i++) {
     for (int j = 0; j < 20; j++) {
       if (matriz[i][j].tipo == 1) {
         continue;
       }
-      if(1 && i>0 && j>0 && i<9 && j<19){
-        if(matriz[i][j-1].tipo == 1){
+      if (1 && i > 0 && j > 0 && i < 9 && j < 19) {
+        if (matriz[i][j - 1].tipo == 1) {
           matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i][j+1].tipo == 1 ){
+        if (matriz[i][j + 1].tipo == 1) {
           matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i-1][j].tipo == 1){
+        if (matriz[i - 1][j].tipo == 1) {
           matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i+1][j].tipo == 1 ){
+        if (matriz[i + 1][j].tipo == 1) {
           matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i+1][j-1].tipo == 1 ){
+        if (matriz[i + 1][j - 1].tipo == 1) {
           matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i+1][j+1].tipo == 1 ){
+        if (matriz[i + 1][j + 1].tipo == 1) {
           matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i-1][j-1].tipo == 1 ){
+        if (matriz[i - 1][j - 1].tipo == 1) {
           matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
-        if(matriz[i-1][j+1].tipo == 1 ){
+        if (matriz[i - 1][j + 1].tipo == 1) {
           matriz[i][j].n_minas = matriz[i][j].n_minas + 1;
         }
       }
@@ -272,51 +272,18 @@ void verif_mina_centro(espaco **matriz){
   }
 }
 
-
-void cria_camp_min(int *vet_rand, espaco **matriz){
+void cria_camp_min(int *vet_rand, espaco **matriz) {
   v_minas(vet_rand);
-  cria_campo(vet_rand,matriz);
+  cria_campo(vet_rand, matriz);
   verif_mina_pontas(matriz);
   verif_mina_extremoz_linhas(matriz);
   verif_mina_centro(matriz);
 }
 
-int main() {
-  // matriz do jogo
-  espaco **matriz;
-  int *vet_rand;
-  char selecionado[255];
-  int linha,coluna;
-  int aux = 0;
-  int contador = 0;
-
-  vet_rand = malloc(sizeof(int) * 40);
-
-  matriz = malloc(sizeof(espaco *) * 10);
-  for (int i = 0; i < 10; i++) {
-    matriz[i] = malloc(sizeof(espaco) * 20);
-  }
-
-  cria_camp_min(vet_rand, matriz);
-  free(vet_rand);
-  // func para checar numero de bombas.
-  // verif_qtd_minas(matriz);
-  printf("              MENU\n  Jogar\n  Jogar-Automaticamente\n  Instrucoes\nDigte uma das opções acima:\n  ");
-  scanf("%s",selecionado);
-  if(strcmp(selecionado,"Instrucoes")==0){
-    printf(" 1. Uma mina é revelada: nesse caso, o jogo encerra com a derrota do usuário;\n 2. Um número é revelado: o valor indica a quantidade de minas adjacentes considerando as 8 células ao redor de uma posição (vertical, horizontal e diagonais);\n 3. Uma posição vazia é revelada: nesse caso, o jogo aplica a ação revelar sobre todas as células adjacentes a essa posição, visto que ela não possui minas adjacentes.");
-  }
-  if(strcmp(selecionado,"Jogar")==0){
-    //criar jogo
-    print_matriz_status(matriz);
-
-    while(aux == 0 || contador < 160){
-      scanf("%d",  &linha);
-      scanf("%d",  &coluna);
-      contador++;
-
-      if(matriz[linha][coluna].tipo == 0 && matriz[linha][coluna].n_minas == 0){
-        if(linha == 0 && coluna == 0){
+int abri_space(espaco **matriz, int linha, int coluna) {
+  int help = 0;
+  if (matriz[linha][coluna].tipo == 0 && matriz[linha][coluna].n_minas == 0) {
+    if(linha == 0 && coluna == 0){
           matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
           matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
           matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
@@ -325,7 +292,7 @@ int main() {
         else if(linha == 9 && coluna == 0){
           matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
           matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
-          matriz[linha-31][coluna].status = matriz[linha-1][coluna].n_minas + '0';
+          matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
           matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';
         }
         else if(linha == 9 && coluna == 19){
@@ -383,26 +350,101 @@ int main() {
           matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';
           matriz[linha-1][coluna-1].status = matriz[linha-1][coluna-1].n_minas + '0';
         }
-      }
-      else if(matriz[linha][coluna].tipo == 1){
+    return help;
+  } else if (matriz[linha][coluna].tipo == 1) {
+    matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+    help = 1;
+    return help;
+  } else {
+    matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+    return help;
+  }
+}
+
+void jogar(espaco **matriz) {
+  int l;
+  int c;
+  int aux = 0;
+  int contador = 0;
+  char select[255];
+  print_matriz_status(matriz);
+  printf("\n");
+  printf("\n");
+
+  while (aux == 0 || contador < 160) {
+    printf("Tiro ou bomba? ");
+    scanf("%s", select);
+    printf("\n");
+    if (strcmp(select, "bomba") == 0) {
+      scanf("%d", &l);
+      scanf("%d", &c);
+      printf("\n");
+      matriz[l][c].status = 'B';
+      print_matriz_status(matriz);
+      printf("\n");
+      printf("\n");
+    } else {
+      scanf("%d", &l);
+      scanf("%d", &c);
+      printf("\n");
+      contador++;
+      aux = abri_space(matriz, l, c);
+      if (aux == 0) {
+        print_matriz_status(matriz);
+        printf("\n");
+        printf("\n");
+      } else {
+        printf("BOOM\n");
+        print_matriz_status(matriz);
         printf("PERDEU\n");
         break;
       }
-      else{
-        matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
-      }
-      print_matriz_status(matriz);
+    }
   }
+}
+
+int main() {
+  // matriz do jogo
+  espaco **matriz;
+  int *vet_rand;
+  char selecionado[255];
+  int linha, coluna;
+
+  vet_rand = malloc(sizeof(int) * 40);
+
+  matriz = malloc(sizeof(espaco *) * 10);
+  for (int i = 0; i < 10; i++) {
+    matriz[i] = malloc(sizeof(espaco) * 20);
   }
-  if(strcmp(selecionado,"Jogar-Automaticamente")==0){
-    //criar jogo automatico
+
+  cria_camp_min(vet_rand, matriz);
+  free(vet_rand);
+  // func para checar numero de bombas.
+  // verif_qtd_minas(matriz);
+  printf("              MENU\n  Jogar\n  Jogar-Automaticamente\n  "
+         "Instrucoes\nDigte uma das opções acima:\n  ");
+  scanf("%s", selecionado);
+  if (strcmp(selecionado, "Instrucoes") == 0) {
+    printf(" 1. Uma mina é revelada: nesse caso, o jogo encerra com a derrota "
+           "do usuário;\n 2. Um número é revelado: o valor indica a quantidade "
+           "de minas adjacentes considerando as 8 células ao redor de uma "
+           "posição (vertical, horizontal e diagonais);\n 3. Uma posição vazia "
+           "é revelada: nesse caso, o jogo aplica a ação revelar sobre todas "
+           "as células adjacentes a essa posição, visto que ela não possui "
+           "minas adjacentes.");
+  }
+  if (strcmp(selecionado, "Jogar") == 0) {
+    // criar jogo
+    jogar(matriz);
+  }
+  if (strcmp(selecionado, "Jogar-Automaticamente") == 0) {
+    // criar jogo automatico
   }
 
   for (int i = 0; i < 10; i++) {
     free(matriz[i]);
   }
   free(matriz);
-    
+
   return 0;
 }
- 
