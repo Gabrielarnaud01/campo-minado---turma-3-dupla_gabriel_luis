@@ -31,6 +31,7 @@ typedef struct {
   int n_minas;
   int pos_sequencial;
   char status;
+  int aberto;
 
 } espaco;
 
@@ -45,17 +46,23 @@ void print_matriz_status(espaco **matriz){
 
 void v_minas(int *v_rand) {
   char ja_consta;
-  srand(time(NULL));
+  srand(1);
   for (int i = 0; i < 40; i++) {
     v_rand[i] = rand() % 200;
     ja_consta = 'N';
     for (int j = 0; j < i && ja_consta == 'N'; j++) {
       if (v_rand[i] == v_rand[j])
         ja_consta = 'S';
+        
     }
     if (ja_consta == 'S')
       i--;
   }
+
+  for( int i=0; i<40;i++){
+    printf("%d\n",v_rand[i]);
+  }
+  
 }
 
 void cria_campo(int *v_rand, espaco **matriz) {
@@ -64,6 +71,7 @@ void cria_campo(int *v_rand, espaco **matriz) {
       matriz[i][j].tipo = 4;
       matriz[i][j].n_minas = 0;
       matriz[i][j].status = '*';
+      matriz[i][j].aberto = 0;
     }
   }
   for (int i = 0; i < 10; i++) {
@@ -281,66 +289,186 @@ void cria_camp_min(int *vet_rand, espaco **matriz) {
 }
 
 int abri_space(espaco **matriz, int linha, int coluna) {
+  printf("entrei na func abrir esp\n");
   int help = 0;
   if (matriz[linha][coluna].tipo == 0 && matriz[linha][coluna].n_minas == 0) {
-    if(linha == 0 && coluna == 0){
+      if(linha == 0 && coluna == 0){
           matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
           matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
           matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
           matriz[linha+1][coluna+1].status = matriz[linha+1][coluna+1].n_minas + '0';
+          if(matriz[linha][coluna+1].tipo == 0){
+            if(matriz[linha][coluna+1].aberto == 0){
+              abri_space(matriz,linha,coluna+1);
+            };
+          }
+          if(matriz[linha+1][coluna].tipo == 0){
+            if(matriz[linha+1][coluna].aberto == 0){
+              abri_space(matriz,linha+1,coluna);
+            };
+          }
+          if(matriz[linha+1][coluna+1].tipo == 0){
+            if(matriz[linha+1][coluna+1].aberto == 0){
+              abri_space(matriz,linha+1,coluna+1);
+            };
+          }
         }
         else if(linha == 9 && coluna == 0){
           matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
           matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
           matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
           matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';
+          if(matriz[linha][coluna+1].tipo == 0){
+            if(matriz[linha][coluna+1].aberto == 0){
+              abri_space(matriz,linha,coluna+1);
+            };
+            
+          }
+          if(matriz[linha-1][coluna].tipo == 0){
+            if(matriz[linha-1][coluna].aberto == 0){
+              abri_space(matriz,linha-1,coluna);
+            };
+            
+          }
+          if(matriz[linha-1][coluna+1].tipo == 0){
+            abri_space(matriz,linha-1,coluna+1);
+          }
         }
         else if(linha == 9 && coluna == 19){
           matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
           matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
           matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
           matriz[linha-1][coluna-1].status = matriz[linha-1][coluna-1].n_minas + '0';
+          if(matriz[linha][coluna-1].tipo == 0){
+            abri_space(matriz,linha,coluna-1);
+          }
+          if(matriz[linha-1][coluna].tipo == 0){
+            abri_space(matriz,linha-1,coluna);
+          }
+          if(matriz[linha-1][coluna-1].tipo == 0){
+            abri_space(matriz,linha-1,coluna-1);
+          }
         }
         else if(linha == 0 && coluna == 19){
           matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
           matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
           matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
           matriz[linha+1][coluna-1].status = matriz[linha+1][coluna-1].n_minas + '0';
+          if(matriz[linha][coluna-1].tipo == 0){
+            abri_space(matriz,linha,coluna-1);
+          }
+          if(matriz[linha+1][coluna].tipo == 0){
+            abri_space(matriz,linha+1,coluna);
+          }
+          if(matriz[linha+1][coluna-1].tipo == 0){
+            abri_space(matriz,linha+1,coluna-1);
+          }
         }
         else if(linha >0 &&linha <9 && coluna ==0){
           matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
           matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
           matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
           matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
           matriz[linha+1][coluna+1].status = matriz[linha+1][coluna+1].n_minas + '0';
-          matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';
+          matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';  
+          
+          if(matriz[linha-1][coluna].tipo == 0){
+            abri_space(matriz,linha-1,coluna);
+          }
+          if(matriz[linha+1][coluna].tipo == 0){
+            abri_space(matriz,linha+1,coluna);
+          }
+          if(matriz[linha][coluna+1].tipo == 0){
+            abri_space(matriz,linha,coluna+1);
+          }
+          if(matriz[linha+1][coluna+1].tipo == 0){
+            abri_space(matriz,linha+1,coluna+1);
+          }
+          if(matriz[linha-1][coluna+1].tipo == 0){
+            abri_space(matriz,linha-1,coluna+1);
+          }
+          
         }
         else if(linha == 0 && coluna > 0 && coluna <19){
           matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
           matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
           matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
           matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
           matriz[linha+1][coluna+1].status = matriz[linha+1][coluna+1].n_minas + '0';
-          matriz[linha+1][coluna-1].status = matriz[linha+1][coluna-1].n_minas + '0';
+          matriz[linha+1][coluna-1].status = matriz[linha+1][coluna-1].n_minas + '0';    /*
+          if(matriz[linha+1][coluna].tipo == 0){
+            abri_space(matriz,linha+1,coluna);
+          }
+          if(matriz[linha][coluna+1].tipo == 0){
+            abri_space(matriz,linha,coluna+1);
+          }
+          if(matriz[linha][coluna-1].tipo == 0){
+            abri_space(matriz,linha,coluna-1);
+          }
+          if(matriz[linha+1][coluna+1].tipo == 0){
+            abri_space(matriz,linha+1,coluna+1);
+          }
+          if(matriz[linha+1][coluna-1].tipo == 0){
+            abri_space(matriz,linha+1,coluna-1);
+          }*/
         }
         else if(linha == 9 && coluna > 0 && coluna <19){
           matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
           matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
           matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
           matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
           matriz[linha-1][coluna-1].status = matriz[linha-1][coluna-1].n_minas + '0';
-          matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';
+          matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';    /*
+          if(matriz[linha-1][coluna].tipo == 0){
+            abri_space(matriz,linha-1,coluna);
+          }
+          if(matriz[linha][coluna-1].tipo == 0){
+            abri_space(matriz,linha,coluna-1);
+          }
+          if(matriz[linha][coluna+1].tipo == 0){
+            abri_space(matriz,linha,coluna+1);
+          }
+          if(matriz[linha-1][coluna-1].tipo == 0){
+            abri_space(matriz,linha-1,coluna-1);
+          }
+          if(matriz[linha-1][coluna+1].tipo == 0){
+            abri_space(matriz,linha-1,coluna+1);
+          }*/
         }
         else if(linha > 0 && linha <9 && coluna == 19){
           matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
           matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
           matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
           matriz[linha][coluna-1].status = matriz[linha][coluna-1].n_minas + '0';
           matriz[linha+1][coluna-1].status = matriz[linha+1][coluna-1].n_minas + '0';
-          matriz[linha-1][coluna-1].status = matriz[linha-1][coluna-1].n_minas + '0';
+          matriz[linha-1][coluna-1].status = matriz[linha-1][coluna-1].n_minas + '0';    /*
+          if(matriz[linha-1][coluna].tipo == 0){
+            abri_space(matriz,linha-1,coluna);
+          }
+          if(matriz[linha+1][coluna].tipo == 0){
+            abri_space(matriz,linha+1,coluna);
+          }
+          if(matriz[linha][coluna-1].tipo == 0){
+            abri_space(matriz,linha,coluna-1);
+          }
+          if(matriz[linha+1][coluna-1].tipo == 0){
+            abri_space(matriz,linha+1,coluna-1);
+          }
+          if(matriz[linha-1][coluna-1].tipo == 0){
+            abri_space(matriz,linha-1,coluna-1);
+          }*/
         }
         else{
           matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+          matriz[linha][coluna].aberto =1;
           matriz[linha+1][coluna].status = matriz[linha+1][coluna].n_minas + '0';
           matriz[linha-1][coluna].status = matriz[linha-1][coluna].n_minas + '0';
           matriz[linha][coluna+1].status = matriz[linha][coluna+1].n_minas + '0';
@@ -348,15 +476,42 @@ int abri_space(espaco **matriz, int linha, int coluna) {
           matriz[linha+1][coluna+1].status = matriz[linha+1][coluna+1].n_minas + '0';
           matriz[linha+1][coluna-1].status = matriz[linha+1][coluna-1].n_minas + '0';
           matriz[linha-1][coluna+1].status = matriz[linha-1][coluna+1].n_minas + '0';
-          matriz[linha-1][coluna-1].status = matriz[linha-1][coluna-1].n_minas + '0';
+          matriz[linha-1][coluna-1].status = matriz[linha-1][coluna-1].n_minas + '0';    /*
+          if(matriz[linha-1][coluna].tipo == 0){
+            abri_space(matriz,linha-1,coluna);
+          }
+          if(matriz[linha+1][coluna].tipo == 0){
+            abri_space(matriz,linha+1,coluna);
+          }
+          if(matriz[linha][coluna-1].tipo == 0){
+            abri_space(matriz,linha,coluna-1);
+          }
+          if(matriz[linha][coluna+1].tipo == 0){
+            abri_space(matriz,linha,coluna+1);
+          }
+          if(matriz[linha+1][coluna+1].tipo == 0){
+            abri_space(matriz,linha+1,coluna+1);
+          }
+          if(matriz[linha+1][coluna-1].tipo == 0){
+            abri_space(matriz,linha+1,coluna-1);
+          }
+          if(matriz[linha-1][coluna+1].tipo == 0){
+            abri_space(matriz,linha-1,coluna+1);
+          }
+          if(matriz[linha-1][coluna-1].tipo == 0){
+            abri_space(matriz,linha-1,coluna-1);
+          }*/
         }
+    printf("sai na func abrir esp\n");
     return help;
   } else if (matriz[linha][coluna].tipo == 1) {
     matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
     help = 1;
+    printf("sai na func abrir esp\n");
     return help;
   } else {
     matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
+    printf("sai na func abrir esp\n");
     return help;
   }
 }
