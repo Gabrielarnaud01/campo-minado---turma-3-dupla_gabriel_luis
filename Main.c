@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
+
 
 //  O jogo precisa de uma inteface com as opções de ver o tempo->
 // uma opção de ajuda e uma opção de revelar uma celula!!
@@ -36,11 +38,25 @@ typedef struct {
 } espaco;
 
 void print_matriz_status(espaco **matriz){
+  printf("  ");
+  for(int i = 0; i<20; i++){
+    if(i<10){
+      printf(" %d ", i);  
+    }
+    else{
+      printf("%d ", i);  
+    }
+  }
+  printf("\n");
+
   for(int i = 0; i<10; i++){
+    printf("  ------------------------------------------------------------\n");
+    printf(" %d|", i);
       for(int j = 0; j<20; j++){
-        printf("%c ", matriz[i][j].status);
+        printf("%c| ", matriz[i][j].status);
       }
     printf("\n");
+    
   }
 }
 
@@ -240,6 +256,7 @@ void verif_mina_extremoz_linhas(espaco **matriz) {
     }
   }
 }
+
 void verif_mina_centro(espaco **matriz) {
   for (int i = 0; i < 10; i++) {
     for (int j = 0; j < 20; j++) {
@@ -622,6 +639,9 @@ void jogar(espaco **matriz) {
   }
 }
 
+
+
+
 int main() {
   // matriz do jogo
   espaco **matriz;
@@ -629,17 +649,6 @@ int main() {
   char selecionado[255];
   int linha, coluna;
 
-  vet_rand = malloc(sizeof(int) * 40);
-
-  matriz = malloc(sizeof(espaco *) * 10);
-  for (int i = 0; i < 10; i++) {
-    matriz[i] = malloc(sizeof(espaco) * 20);
-  }
-
-  cria_camp_min(vet_rand, matriz);
-  free(vet_rand);
-  // func para checar numero de bombas.
-  // verif_qtd_minas(matriz);
   printf("              MENU\n  Jogar\n  Jogar-Automaticamente\n  "
          "Instrucoes\nDigte uma das opções acima:\n  ");
   scanf("%s", selecionado);
@@ -653,6 +662,15 @@ int main() {
            "minas adjacentes.");
   }
   if (strcmp(selecionado, "Jogar") == 0) {
+    vet_rand = malloc(sizeof(int) * 40);
+
+    matriz = malloc(sizeof(espaco *) * 10);
+    for (int i = 0; i < 10; i++) {
+      matriz[i] = malloc(sizeof(espaco) * 20);
+    }
+
+    cria_camp_min(vet_rand, matriz);
+    free(vet_rand);
     // criar jogo
     jogar(matriz);
   }
