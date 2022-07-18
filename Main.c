@@ -40,20 +40,15 @@ typedef struct {
 void print_matriz_status(espaco **matriz){
   printf("  ");
   for(int i = 0; i<20; i++){
-    if(i<10){
-      printf(" %d ", i);  
-    }
-    else{
-      printf("%d ", i);  
-    }
+    printf("%3d ", i); 
   }
   printf("\n");
 
   for(int i = 0; i<10; i++){
-    printf("  ------------------------------------------------------------\n");
-    printf(" %d|", i);
+    printf("  -------------------------------------------------------------------------------\n");
+    printf("%2d |", i);
       for(int j = 0; j<20; j++){
-        printf("%c| ", matriz[i][j].status);
+        printf("%2c| ", matriz[i][j].status);
       }
     printf("\n");
     
@@ -302,7 +297,7 @@ void cria_camp_min(int *vet_rand, espaco **matriz) {
 }
 
 int abri_space(espaco **matriz, int linha, int coluna) {
-  //printf("entrei na func abrir esp\n");
+ 
   int help = 0;
   if (matriz[linha][coluna].tipo == 0 && matriz[linha][coluna].n_minas == 0) {
       if(linha == 0 && coluna == 0){
@@ -583,17 +578,17 @@ int abri_space(espaco **matriz, int linha, int coluna) {
             }
           }
         }
-    //printf("sai na func abrir esp\n");
+   
     return help;
   } else if (matriz[linha][coluna].tipo == 1) {
     matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
     help = 1;
-    //printf("sai na func abrir esp\n");
+   
     return help;
   } else {
     matriz[linha][coluna].status = matriz[linha][coluna].n_minas + '0';
-    //printf("sai na func abrir esp\n");
-    return help;
+    matriz[linha][coluna].aberto =1;
+    return help; 
   }
 }
 
@@ -606,6 +601,7 @@ void jogar(espaco **matriz) {
   print_matriz_status(matriz);
   printf("\n");
   printf("\n");
+  int cont2=0;
 
   while (aux == 0 || contador < 160) {
     printf("Tiro ou bomba? ");
@@ -620,6 +616,10 @@ void jogar(espaco **matriz) {
       printf("\n");
       printf("\n");
     } else {
+      if(cont2==0){
+      cont2=1;
+        time_t start = time(NULL);
+        }
       scanf("%d", &l);
       scanf("%d", &c);
       printf("\n");
@@ -637,6 +637,17 @@ void jogar(espaco **matriz) {
       }
     }
   }
+}
+int verif_ced_abertas(espaco **matriz){
+  int contador = 0;
+  for(int i = 0; i<10; i++){
+    for(int j = 0; j<20; j++){
+      if(matriz[i][j].aberto == 1){
+        contador++;
+      }
+    }
+  }
+  return contador;
 }
 
 
@@ -685,3 +696,4 @@ int main() {
 
   return 0;
 }
+
