@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <unistd.h>
+
 
 
 //  O jogo precisa de uma inteface com as opções de ver o tempo->
@@ -46,9 +46,9 @@ void print_matriz_status(espaco **matriz){
 
   for(int i = 0; i<10; i++){
     printf("  -------------------------------------------------------------------------------\n");
-    printf("%2d |", i);
+    printf("%2d|", i);
       for(int j = 0; j<20; j++){
-        printf("%2c| ", matriz[i][j].status);
+        printf("%2c  ", matriz[i][j].status);
       }
     printf("\n");
     
@@ -57,7 +57,7 @@ void print_matriz_status(espaco **matriz){
 
 void v_minas(int *v_rand) {
   char ja_consta;
-  srand(time(NULL));
+  srand(1);//lembrar de mudar de volta para 
   for (int i = 0; i < 40; i++) {
     v_rand[i] = rand() % 200;
     ja_consta = 'N';
@@ -591,6 +591,17 @@ int abri_space(espaco **matriz, int linha, int coluna) {
     return help; 
   }
 }
+int verif_ced_abertas(espaco **matriz){
+  int contador = 0;
+  for(int i = 0; i<10; i++){
+    for(int j = 0; j<20; j++){
+      if(matriz[i][j].aberto == 1){
+        contador++;
+      }
+    }
+  }
+  return contador;
+}
 
 void jogar(espaco **matriz) {
   int l;
@@ -602,7 +613,6 @@ void jogar(espaco **matriz) {
   printf("\n");
   printf("\n");
   int cont2=0;
-
   while (aux == 0 || contador < 160) {
     printf("Tiro ou bomba? ");
     scanf("%s", select);
@@ -616,15 +626,18 @@ void jogar(espaco **matriz) {
       printf("\n");
       printf("\n");
     } else {
+      /*
       if(cont2==0){
       cont2=1;
         time_t start = time(NULL);
         }
+      */
       scanf("%d", &l);
       scanf("%d", &c);
       printf("\n");
-      contador++;
       aux = abri_space(matriz, l, c);
+      contador = verif_ced_abertas(matriz);
+      printf(" %d do momento\n", contador);
       if (aux == 0) {
         print_matriz_status(matriz);
         printf("\n");
@@ -637,17 +650,7 @@ void jogar(espaco **matriz) {
       }
     }
   }
-}
-int verif_ced_abertas(espaco **matriz){
-  int contador = 0;
-  for(int i = 0; i<10; i++){
-    for(int j = 0; j<20; j++){
-      if(matriz[i][j].aberto == 1){
-        contador++;
-      }
-    }
-  }
-  return contador;
+ 
 }
 
 
@@ -682,6 +685,22 @@ int main() {
 
     cria_camp_min(vet_rand, matriz);
     free(vet_rand);
+     printf("  ");
+  for(int i = 0; i<20; i++){
+    printf("%3d ", i); 
+  }
+  printf("\n");
+
+  for(int i = 0; i<10; i++){
+    printf("  -------------------------------------------------------------------------------\n");
+    printf("%2d|", i);
+      for(int j = 0; j<20; j++){
+        printf("%2d  ", matriz[i][j].tipo);
+      }
+    printf("\n");
+  }
+    printf("\n");
+    
     // criar jogo
     jogar(matriz);
   }
@@ -696,4 +715,3 @@ int main() {
 
   return 0;
 }
-
