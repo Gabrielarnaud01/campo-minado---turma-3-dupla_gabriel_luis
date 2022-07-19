@@ -626,13 +626,15 @@ void jogar(espaco **matriz) {
   int contador = 0;
   int n_bombas = 40;
   char select[255];
+  time_t inicial = time(NULL);
   printf("Numero de bombas não marcadas: %d\n", n_bombas); // Aparecera na primeira jogada e toda vez que ele marcar bomba.
   print_matriz_status(matriz);
   printf("\n");
   printf("\n");
-  int cont2=0;
+  
   while (aux == 0 || contador < 160) {
-    printf("Tiro ou bomba? ");
+    
+    printf("Tiro, bomba ou tempo? ");
     scanf("%s", select);
     printf("\n");
     if (strcmp(select, "bomba") == 0) {
@@ -645,13 +647,33 @@ void jogar(espaco **matriz) {
       print_matriz_status(matriz);
       printf("\n");
       printf("\n");
-    } else {
-      /*
-      if(cont2==0){
-      cont2=1;
-        time_t start = time(NULL);
-        }
-      */
+    }
+    else if (strcmp(select, "tempo") == 0){
+      int tempo=0;
+      
+      time_t finall = time(NULL);
+      tempo = finall - inicial;
+      int minutos = tempo/60;
+      int horas = minutos/60;[
+      
+      if(tempo ==1){
+        printf("%d segundo\n\n",tempo);
+      }
+      else if(tempo < 60){
+        printf("%d segundos\n\n",tempo);
+      }else if(tempo >60 && tempo <3600){
+        printf("%d minutos e %d segundos\n\n",tempo/60,tempo - (60*minutos));
+      }else if(tempo ==60){
+        printf("%d minuto\n\n",tempo/60);
+      }else if(tempo ==3600){
+         printf("%d hora\n\n",tempo/3600);
+      }else if( tempo>3600){
+        printf("%d horas %d minutos e %d segundos\n\n",tempo/3600,tempo - (60* 
+ horas),tempo - (60*minutos));
+      }
+    }
+    else {
+
       scanf("%d", &l);
       scanf("%d", &c);
       printf("\n");
@@ -707,22 +729,7 @@ void menu(espaco **matriz, int *vet_rand){
 
     cria_camp_min(vet_rand, matriz);
     free(vet_rand);
-     printf("  ");
-  for(int i = 0; i<20; i++){
-    printf("%3d ", i); 
-  }
-  printf("\n");
 
-  for(int i = 0; i<10; i++){ //matriz controle apenas para ver as posições das bombas e elaborar melhor o codigo, lembrar de apagar ele apos o codigo concluido.
-    printf("  -------------------------------------------------------------------------------\n");
-    printf("%2d|", i);
-      for(int j = 0; j<20; j++){
-        printf("%2d  ", matriz[i][j].tipo);
-      }
-    printf("\n");
-  }
-    printf("\n");
-    
     // criar jogo
     jogar(matriz);
   }
