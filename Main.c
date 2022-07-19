@@ -37,6 +37,8 @@ typedef struct {
 
 } espaco;
 
+
+//Função usada apenas para imprimir a matriz.
 void print_matriz_status(espaco **matriz){
   printf("  ");
   for(int i = 0; i<20; i++){
@@ -55,9 +57,11 @@ void print_matriz_status(espaco **matriz){
   }
 }
 
+
+//Função responsavel por formar um vetor sorteado aleatoriamente com 40 posições não repetidas as quais as bombas ficarão posicionadas.
 void v_minas(int *v_rand) {
   char ja_consta;
-  srand(1);//lembrar de mudar de volta para 
+  srand(time(NULL));//lembrar de mudar de volta para 
   for (int i = 0; i < 40; i++) {
     v_rand[i] = rand() % 200;
     ja_consta = 'N';
@@ -72,6 +76,7 @@ void v_minas(int *v_rand) {
   
 }
 
+//Função responsavel por pegar o vetor criado com as posições das bombas de forma aleatoria e alocalas na matriz.
 void cria_campo(int *v_rand, espaco **matriz) {
   for (int i = 0; i < 10; i++) {
     for (int j = 0; j < 20; j++) {
@@ -100,6 +105,7 @@ void cria_campo(int *v_rand, espaco **matriz) {
   }
 }
 
+//Função responsavel por identificar no numero de minas alocadas nas pontas da matriz.
 void verif_mina_pontas(espaco **matriz) {
 
   for (int i = 0; i < 10; i++) {
@@ -173,6 +179,8 @@ void verif_mina_pontas(espaco **matriz) {
   }
 }
 
+
+//Função responsavel por identificar no numero de minas alocadas nas primeiras colunas e linhas da matriz.
 void verif_mina_extremoz_linhas(espaco **matriz) {
   for (int i = 0; i < 10; i++) {
     for (int j = 0; j < 20; j++) {
@@ -252,6 +260,7 @@ void verif_mina_extremoz_linhas(espaco **matriz) {
   }
 }
 
+//Função responsavel por identificar no numero de minas alocadas no centro da matriz.
 void verif_mina_centro(espaco **matriz) {
   for (int i = 0; i < 10; i++) {
     for (int j = 0; j < 20; j++) {
@@ -288,6 +297,7 @@ void verif_mina_centro(espaco **matriz) {
   }
 }
 
+//Função responsavel por reunir todas as pequenas funções para craição da matriz completa.
 void cria_camp_min(int *vet_rand, espaco **matriz) {
   v_minas(vet_rand);
   cria_campo(vet_rand, matriz);
@@ -296,6 +306,7 @@ void cria_camp_min(int *vet_rand, espaco **matriz) {
   verif_mina_centro(matriz);
 }
 
+// Função responsavel por abrir os espaços e fazer a chamada recursiva da função.
 int abri_space(espaco **matriz, int linha, int coluna) {
  
   int help = 0;
@@ -591,7 +602,11 @@ int abri_space(espaco **matriz, int linha, int coluna) {
     return help; 
   }
 }
-int verif_ced_abertas(espaco **matriz){
+
+
+
+//Verificar e retornar o valor de cedulas ja abertas no programa.
+int verif_ced_abertas(espaco **matriz){ 
   int contador = 0;
   for(int i = 0; i<10; i++){
     for(int j = 0; j<20; j++){
@@ -603,12 +618,15 @@ int verif_ced_abertas(espaco **matriz){
   return contador;
 }
 
+
 void jogar(espaco **matriz) {
   int l;
   int c;
   int aux = 0;
   int contador = 0;
+  int n_bombas = 40;
   char select[255];
+  printf("Numero de bombas não marcadas: %d\n", n_bombas); // Aparecera na primeira jogada e toda vez que ele marcar bomba.
   print_matriz_status(matriz);
   printf("\n");
   printf("\n");
@@ -622,6 +640,8 @@ void jogar(espaco **matriz) {
       scanf("%d", &c);
       printf("\n");
       matriz[l][c].status = 'B';
+      n_bombas--;
+      printf("Numero de bombas não marcadas: %d\n", n_bombas); // Controle de quantas bombas ainda existiria para ele marcar.
       print_matriz_status(matriz);
       printf("\n");
       printf("\n");
@@ -637,7 +657,13 @@ void jogar(espaco **matriz) {
       printf("\n");
       aux = abri_space(matriz, l, c);
       contador = verif_ced_abertas(matriz);
-      printf(" %d do momento\n", contador);
+      if(contador >= 160){
+        printf("PARABENS VOCÊ GANHOU!!!!\n"); //Se o jogador conseguir desbloquear 160 cedulas sem clicar em nenhuma bomba ele vence o jogo.
+        break;
+      }
+      else{
+        printf(" %d do momento\n", contador);
+      
       if (aux == 0) {
         print_matriz_status(matriz);
         printf("\n");
@@ -648,25 +674,21 @@ void jogar(espaco **matriz) {
         printf("PERDEU\n");
         break;
       }
+
+      }
+      
     }
   }
  
 }
 
 
-
-
-int main() {
-  // matriz do jogo
-  espaco **matriz;
-  int *vet_rand;
-  char selecionado[255];
-  int linha, coluna;
-
-  printf("              MENU\n  Jogar\n  Jogar-Automaticamente\n  "
-         "Instrucoes\nDigte uma das opções acima:\n  ");
-  scanf("%s", selecionado);
-  if (strcmp(selecionado, "Instrucoes") == 0) {
+void menu(espaco **matriz, int *vet_rand){
+  int selecionado, linha, coluna;
+  printf("              MENU\n  Jogar - 0\n  Jogar-Automaticamente - 1 \n  "
+         "Instrucoes - 2 \nDigte uma das opções acima:\n  ");
+  scanf("%d", &selecionado);
+  if (selecionado == 2) {
     printf(" 1. Uma mina é revelada: nesse caso, o jogo encerra com a derrota "
            "do usuário;\n 2. Um número é revelado: o valor indica a quantidade "
            "de minas adjacentes considerando as 8 células ao redor de uma "
@@ -675,7 +697,7 @@ int main() {
            "as células adjacentes a essa posição, visto que ela não possui "
            "minas adjacentes.");
   }
-  if (strcmp(selecionado, "Jogar") == 0) {
+  if (selecionado == 0) {
     vet_rand = malloc(sizeof(int) * 40);
 
     matriz = malloc(sizeof(espaco *) * 10);
@@ -691,7 +713,7 @@ int main() {
   }
   printf("\n");
 
-  for(int i = 0; i<10; i++){
+  for(int i = 0; i<10; i++){ //matriz controle apenas para ver as posições das bombas e elaborar melhor o codigo, lembrar de apagar ele apos o codigo concluido.
     printf("  -------------------------------------------------------------------------------\n");
     printf("%2d|", i);
       for(int j = 0; j<20; j++){
@@ -704,7 +726,7 @@ int main() {
     // criar jogo
     jogar(matriz);
   }
-  if (strcmp(selecionado, "Jogar-Automaticamente") == 0) {
+  if (selecionado == 1) {
     // criar jogo automatico
   }
 
@@ -712,6 +734,13 @@ int main() {
     free(matriz[i]);
   }
   free(matriz);
+}
+
+int main() {
+  // matriz do jogo
+  espaco **matriz;
+  int *vet_rand;
+  menu(matriz, vet_rand);
 
   return 0;
 }
