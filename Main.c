@@ -617,7 +617,28 @@ int verif_ced_abertas(espaco **matriz){
   }
   return contador;
 }
-
+void verif_tempo(time_t inicial){
+  int tempo=0;
+  time_t finall = time(NULL);
+  tempo = finall - inicial;
+  int minutos = tempo/60;
+  int horas = minutos/60;
+      
+  if(tempo ==1){
+    printf("%d segundo\n\n",tempo);
+  }
+  else if(tempo < 60){
+    printf("%d segundos\n\n",tempo);
+  }else if(tempo >60 && tempo <3600){
+    printf("%d minutos e %d segundos\n\n",tempo/60,tempo - (60*minutos));
+  }else if(tempo ==60){
+    printf("%d minuto\n\n",tempo/60);
+  }else if(tempo ==3600){
+    printf("%d hora\n\n",tempo/3600);
+  }else if( tempo>3600){
+    printf("%d horas %d minutos e %d segundos\n\n",tempo/3600,tempo - (60* horas),tempo - (60*minutos));
+  }
+}
 
 void jogar(espaco **matriz) {
   int l;
@@ -634,7 +655,7 @@ void jogar(espaco **matriz) {
   
   while (aux == 0 || contador < 160) {
     
-    printf("Tiro, bomba ou tempo? ");
+    printf("Tiro, bomba, tempo ou ajuda? ");
     scanf("%s", select);
     printf("\n");
     if (strcmp(select, "bomba") == 0) {
@@ -649,28 +670,9 @@ void jogar(espaco **matriz) {
       printf("\n");
     }
     else if (strcmp(select, "tempo") == 0){
-      int tempo=0;
-      
-      time_t finall = time(NULL);
-      tempo = finall - inicial;
-      int minutos = tempo/60;
-      int horas = minutos/60;[
-      
-      if(tempo ==1){
-        printf("%d segundo\n\n",tempo);
-      }
-      else if(tempo < 60){
-        printf("%d segundos\n\n",tempo);
-      }else if(tempo >60 && tempo <3600){
-        printf("%d minutos e %d segundos\n\n",tempo/60,tempo - (60*minutos));
-      }else if(tempo ==60){
-        printf("%d minuto\n\n",tempo/60);
-      }else if(tempo ==3600){
-         printf("%d hora\n\n",tempo/3600);
-      }else if( tempo>3600){
-        printf("%d horas %d minutos e %d segundos\n\n",tempo/3600,tempo - (60* 
- horas),tempo - (60*minutos));
-      }
+      printf("Tempo de jogo: ");
+      verif_tempo(inicial);
+      printf("\n");
     }
     else {
 
@@ -680,11 +682,15 @@ void jogar(espaco **matriz) {
       aux = abri_space(matriz, l, c);
       contador = verif_ced_abertas(matriz);
       if(contador >= 160){
+        
         printf("PARABENS VOCÊ GANHOU!!!!\n"); //Se o jogador conseguir desbloquear 160 cedulas sem clicar em nenhuma bomba ele vence o jogo.
+        printf("Tempo de jogo: ");
+        verif_tempo(inicial);
+        printf("\n");
         break;
       }
       else{
-        printf(" %d do momento\n", contador);
+        printf(" %d no momento\n", contador);
       
       if (aux == 0) {
         print_matriz_status(matriz);
@@ -693,7 +699,11 @@ void jogar(espaco **matriz) {
       } else {
         printf("BOOM\n");
         print_matriz_status(matriz);
+        verif_tempo(inicial);
         printf("PERDEU\n");
+        printf("Tempo de jogo: ");
+        verif_tempo(inicial);
+        printf("\n");
         break;
       }
 
